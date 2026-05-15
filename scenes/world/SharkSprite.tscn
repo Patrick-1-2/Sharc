@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://citvrqi3lkphv"]
+
+[ext_resource type="Script" uid="uid://b3n3s3sjtytad" path="res://scenes/world/SharkSprite.gd" id="1_lywds"]
+
+[node name="SharkSprite" type="Node2D" unique_id=78885201]
+script = ExtResource("1_lywds")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2129531685]
+
+[node name="Label" type="Label" parent="." unique_id=1339340409]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1105188860]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1223885143]

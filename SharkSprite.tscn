@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cb6a7hvq5kcle"]
+
+[ext_resource type="Script" uid="uid://b3n3s3sjtytad" path="res://scenes/world/SharkSprite.gd" id="1_lywds"]
+
+[node name="SharkSprite" type="Node2D" unique_id=78885201]
+script = ExtResource("1_lywds")

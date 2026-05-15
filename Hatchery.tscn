@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://21el7j7d08be"]
+
+[ext_resource type="Script" uid="uid://b7rogci2a7rp4" path="res://scenes/ui/Hatchery.gd" id="1_hfeb1"]
+
+[node name="Hatchery" type="Control" unique_id=1263662748]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hfeb1")
+
+[node name="Panel" type="Panel" parent="." unique_id=989960625]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=754841135]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=1442020119]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer" unique_id=1604933609]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hatchery"
+
+[node name="BtnClose" type="Button" parent="Panel/VBoxContainer/HBoxContainer" unique_id=1973537253]
+layout_mode = 2
+text = "X"
+
+[node name="EggDisplay" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=1528823875]
+layout_mode = 2
+
+[node name="BtnLeft" type="Button" parent="Panel/VBoxContainer/EggDisplay" unique_id=924952947]
+layout_mode = 2
+text = "<"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/EggDisplay" unique_id=1555819029]
+layout_mode = 2
+
+[node name="EggLabel" type="Label" parent="Panel/VBoxContainer/EggDisplay/VBoxContainer" unique_id=1011594545]
+layout_mode = 2
+
+[node name="RarityLabel" type="Label" parent="Panel/VBoxContainer/EggDisplay/VBoxContainer" unique_id=336267832]
+layout_mode = 2
+
+[node name="CountLabel" type="Label" parent="Panel/VBoxContainer/EggDisplay/VBoxContainer" unique_id=71118245]
+layout_mode = 2
+
+[node name="BtnRight" type="Button" parent="Panel/VBoxContainer/EggDisplay" unique_id=2124102381]
+layout_mode = 2
+text = ">"
+
+[node name="BtnHatch" type="Button" parent="Panel/VBoxContainer" unique_id=277233775]
+layout_mode = 2
+text = "Hatch!"
