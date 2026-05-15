@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://d31ryjv13m6fy"]
+
+[ext_resource type="Script" uid="uid://d1gotktb3bc7" path="res://scenes/ui/SharkInteraction.gd" id="1_1yvhh"]
+
+[node name="SharkInteraction" type="Control" unique_id=800889653]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1yvhh")
+
+[node name="Panel" type="Panel" parent="." unique_id=25625376]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1495588180]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NameLabel" type="Label" parent="Panel/VBox" unique_id=1914490893]
+layout_mode = 2
+
+[node name="RarityLabel" type="Label" parent="Panel/VBox" unique_id=1949236225]
+layout_mode = 2
+
+[node name="HappinessBar" type="ProgressBar" parent="Panel/VBox" unique_id=475978445]
+layout_mode = 2
+
+[node name="FoodList" type="VBoxContainer" parent="Panel/VBox" unique_id=1953355795]
+layout_mode = 2
+
+[node name="BtnPet" type="Button" parent="Panel/VBox" unique_id=1169323524]
+layout_mode = 2
+text = "Pet"
+
+[node name="BtnRelease" type="Button" parent="Panel/VBox" unique_id=1924816280]
+layout_mode = 2
+text = "Release"
+
+[node name="FeedbackLabel" type="Label" parent="Panel/VBox" unique_id=757970931]
+layout_mode = 2
+
+[node name="BtnClose" type="Button" parent="Panel" unique_id=2057609775]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "X"

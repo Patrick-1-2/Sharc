@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cksrd1g2cag6i"]
+
+[ext_resource type="Script" uid="uid://d1gotktb3bc7" path="res://scenes/ui/SharkInteraction.gd" id="1_1yvhh"]
+
+[node name="SharkInteraction" type="Control" unique_id=800889653]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1yvhh")

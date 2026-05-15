@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dvewtmm6d837k"]
+
+[ext_resource type="Script" uid="uid://bxx285u6gvonj" path="res://scenes/ui/HUD.gd" id="1_k5de2"]
+
+[node name="HUD" type="CanvasLayer" unique_id=589983772]
+script = ExtResource("1_k5de2")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1657879071]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -85.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxBtns" type="VBoxContainer" parent="MarginContainer" unique_id=555987911]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxBtns" unique_id=485295301]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnHatchery" type="Button" parent="MarginContainer/VBoxBtns/Buttons" unique_id=1468376675]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Hatchery"
+
+[node name="BtnUpgrades" type="Button" parent="MarginContainer/VBoxBtns/Buttons" unique_id=2059990296]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Upgrades"
+
+[node name="BtnIndex" type="Button" parent="MarginContainer/VBoxBtns/Buttons" unique_id=1328959421]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Index"
+
+[node name="MarginContainerTop" type="MarginContainer" parent="." unique_id=1832986878]
+offset_right = 58.0
+offset_bottom = 50.0
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainerTop" unique_id=1929595882]
+layout_mode = 2
+
+[node name="CurrencyLabel" type="Label" parent="MarginContainerTop/VBox" unique_id=307798287]
+layout_mode = 2
+text = "0"
+
+[node name="RateLabel" type="Label" parent="MarginContainerTop/VBox" unique_id=1941065397]
+layout_mode = 2
+text = "+0 / sec"

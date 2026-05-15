@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dpljcmavj45xj"]
+
+[ext_resource type="Script" uid="uid://bcwrxv6efddkc" path="res://scenes/ui/SharkIndex.gd" id="1_7w5h2"]
+
+[node name="SharkIndex" type="Control" unique_id=1298673087]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7w5h2")
