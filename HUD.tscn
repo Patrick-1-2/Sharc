@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://dvewtmm6d837k"]
 
 [ext_resource type="Script" uid="uid://bxx285u6gvonj" path="res://scenes/ui/HUD.gd" id="1_k5de2"]
+[ext_resource type="PackedScene" uid="uid://dpljcmavj45xj" path="res://SharkIndex.tscn" id="2_efote"]
 
 [node name="HUD" type="CanvasLayer" unique_id=589983772]
 script = ExtResource("1_k5de2")
+index_scene = ExtResource("2_efote")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1657879071]
 anchors_preset = 12

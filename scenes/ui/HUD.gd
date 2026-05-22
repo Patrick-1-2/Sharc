@@ -40,4 +40,15 @@ func _open_upgrades() -> void:
 
 func _open_index() -> void:
 	if index_scene:
-		get_tree().root.add_child(index_scene.instantiate())
+		var existing = get_node_or_null("SharkIndex")
+		if existing:
+			existing.queue_free()
+			return
+		var index = index_scene.instantiate()
+		index.name = "SharkIndex"
+		add_child(index)
+		index.set_anchors_preset(Control.PRESET_FULL_RECT)
+		index.offset_left = 0
+		index.offset_top = 0
+		index.offset_right = 0
+		index.offset_bottom = 0
