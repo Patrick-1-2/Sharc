@@ -17,9 +17,8 @@ var currency_multiplier: float = 1.0
 
 var shark_capacity: int = 5
 var housed_sharks: Array = []
-var purchased_upgrades: Array = []
-var inventory_slots: int = 10
-var inventory: Array = []
+var purchased_upgrades: Dictionary = {}
+var egg_discovery_rate: float = 1.0
 
 var discovered_sharks: Dictionary = {}
 
@@ -27,13 +26,7 @@ var _passive_timer: float = 0.0
 const PASSIVE_TICK_INTERVAL: float = 1.0
 
 func _ready() -> void:
-	_apply_starting_items()
-
-func _apply_starting_items() -> void:
 	currency = 150
-	for rarity in range(6):
-		for i in range(100):
-			inventory.append({ "type": "egg", "rarity": rarity })
 
 func _process(delta: float) -> void:
 	_passive_timer += delta
@@ -103,14 +96,19 @@ func release_shark(instance_id: String) -> void:
 	housed_sharks = housed_sharks.filter(func(s): return s.instance_id != instance_id)
 	recalculate_passive_rate()
 
+func get_upgrade_level(upgrade_id: int) -> int:
+	return purchased_upgrades.get(upgrade_id, 0)
+
 func buy_upgrade(upgrade_id: int) -> bool:
-	if purchased_upgrades.has(upgrade_id):
-		return false
 	var upgrade: Dictionary = GameData.UPGRADE_CATALOG[upgrade_id]
-	if currency < upgrade.cost:
+	var current_level: int = get_upgrade_level(upgrade_id)
+	if current_level >= upgrade.max_level:
 		return false
-	currency -= upgrade.cost
-	purchased_upgrades.append(upgrade_id)
+	var cost: int = GameData.upgrade_cost(upgrade, current_level)
+	if currency < cost:
+		return false
+	currency -= cost
+	purchased_upgrades[upgrade_id] = current_level + 1
 	_apply_upgrade(upgrade)
 	emit_signal("upgrade_purchased", upgrade_id)
 	_check_victory()
@@ -118,10 +116,10 @@ func buy_upgrade(upgrade_id: int) -> bool:
 
 func _apply_upgrade(upgrade: Dictionary) -> void:
 	match upgrade.effect:
-		"shark_capacity":   shark_capacity += upgrade.value
-		"passive_currency": passive_currency_rate += upgrade.value
-		"currency_mult":    currency_multiplier *= upgrade.value
-		"inventory_slots":  inventory_slots += upgrade.value
+		"shark_capacity":     shark_capacity += upgrade.value
+		"passive_currency":   passive_currency_rate += upgrade.value
+		"currency_mult":      currency_multiplier *= upgrade.value
+		"egg_discovery_rate": egg_discovery_rate *= upgrade.value
 
 func pet_shark(instance_id: String) -> int:
 	var shark: Dictionary = _find_shark(instance_id)
@@ -157,9 +155,13 @@ func _check_index_complete() -> void:
 		_check_victory()
 
 func _check_victory() -> void:
-	var all_upgrades_owned: bool = purchased_upgrades.size() >= GameData.UPGRADE_CATALOG.size()
+	var all_maxed: bool = true
+	for upgrade in GameData.UPGRADE_CATALOG:
+		if get_upgrade_level(upgrade.id) < upgrade.max_level:
+			all_maxed = false
+			break
 	var index_full: bool = discovered_sharks.size() >= GameData.SHARK_CATALOG.size()
-	if all_upgrades_owned and index_full:
+	if all_maxed and index_full:
 		emit_signal("game_won")
 
 func trigger_loss() -> void:
@@ -175,9 +177,8 @@ func save() -> void:
 		"shark_capacity":     shark_capacity,
 		"housed_sharks":      housed_sharks,
 		"purchased_upgrades": purchased_upgrades,
-		"inventory_slots":    inventory_slots,
-		"inventory":          inventory,
 		"discovered_sharks":  discovered_sharks,
+		"egg_discovery_rate": egg_discovery_rate,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data))
@@ -197,6 +198,5 @@ func load_game() -> void:
 	shark_capacity        = parsed.get("shark_capacity", shark_capacity)
 	housed_sharks         = parsed.get("housed_sharks", housed_sharks)
 	purchased_upgrades    = parsed.get("purchased_upgrades", purchased_upgrades)
-	inventory_slots       = parsed.get("inventory_slots", inventory_slots)
-	inventory             = parsed.get("inventory", inventory)
 	discovered_sharks     = parsed.get("discovered_sharks", discovered_sharks)
+	egg_discovery_rate    = parsed.get("egg_discovery_rate", egg_discovery_rate)
