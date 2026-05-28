@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bxx285u6gvonj" path="res://scenes/ui/HUD.gd" id="1_k5de2"]
 [ext_resource type="PackedScene" uid="uid://dpljcmavj45xj" path="res://SharkIndex.tscn" id="2_efote"]
+[ext_resource type="PackedScene" uid="uid://21el7j7d08be" path="res://Hatchery.tscn" id="2_ne771"]
 
 [node name="HUD" type="CanvasLayer" unique_id=589983772]
 script = ExtResource("1_k5de2")
+hatchery_scene = ExtResource("2_ne771")
 index_scene = ExtResource("2_efote")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1657879071]

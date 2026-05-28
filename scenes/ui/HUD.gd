@@ -1,18 +1,11 @@
 extends CanvasLayer
 # HUD.gd
-# Attach to a CanvasLayer node that holds your HUD Control nodes.
-# Shows currency, passive rate, and navigation buttons.
 
-@onready var currency_label:  Label  = $MarginContainerTop/VBox/CurrencyLabel
-@onready var rate_label:      Label  = $MarginContainerTop/VBox/RateLabel
-@onready var btn_hatchery:    Button = $MarginContainer/VBoxBtns/Buttons/BtnHatchery
-@onready var btn_upgrades:    Button = $MarginContainer/VBoxBtns/Buttons/BtnUpgrades
-@onready var btn_index:       Button = $MarginContainer/VBoxBtns/Buttons/BtnIndex
-
-# Scenes to open (set in Inspector or via preload)
-@export var hatchery_scene: PackedScene
-@export var upgrade_scene:  PackedScene
-@export var index_scene:    PackedScene
+@onready var currency_label: Label  = $MarginContainerTop/VBox/CurrencyLabel
+@onready var rate_label:     Label  = $MarginContainerTop/VBox/RateLabel
+@onready var btn_hatchery:   Button = $MarginContainer/VBoxBtns/Buttons/BtnHatchery
+@onready var btn_upgrades:   Button = $MarginContainer/VBoxBtns/Buttons/BtnUpgrades
+@onready var btn_index:      Button = $MarginContainer/VBoxBtns/Buttons/BtnIndex
 
 func _ready() -> void:
 	GameState.currency_changed.connect(_on_currency_changed)
@@ -30,25 +23,43 @@ func _on_currency_changed(_amount: int) -> void:
 	_refresh()
 
 func _open_hatchery() -> void:
-	if hatchery_scene:
-		get_tree().root.add_child(hatchery_scene.instantiate())
-		hide()
+	var existing = get_node_or_null("Hatchery")
+	if existing:
+		existing.queue_free()
+		return
+	var hatchery = load("res://scenes/ui/Hatchery.gd").new()
+	hatchery.name = "Hatchery"
+	add_child(hatchery)
+	hatchery.set_anchors_preset(Control.PRESET_FULL_RECT)
+	hatchery.offset_left   = 0
+	hatchery.offset_top    = 0
+	hatchery.offset_right  = 0
+	hatchery.offset_bottom = 0
 
 func _open_upgrades() -> void:
-	if upgrade_scene:
-		get_tree().root.add_child(upgrade_scene.instantiate())
+	var existing = get_node_or_null("UpgradeShop")
+	if existing:
+		existing.queue_free()
+		return
+	var shop = load("res://scenes/ui/UpgradeShop.gd").new()
+	shop.name = "UpgradeShop"
+	add_child(shop)
+	shop.set_anchors_preset(Control.PRESET_FULL_RECT)
+	shop.offset_left   = 0
+	shop.offset_top    = 0
+	shop.offset_right  = 0
+	shop.offset_bottom = 0
 
 func _open_index() -> void:
-	if index_scene:
-		var existing = get_node_or_null("SharkIndex")
-		if existing:
-			existing.queue_free()
-			return
-		var index = index_scene.instantiate()
-		index.name = "SharkIndex"
-		add_child(index)
-		index.set_anchors_preset(Control.PRESET_FULL_RECT)
-		index.offset_left = 0
-		index.offset_top = 0
-		index.offset_right = 0
-		index.offset_bottom = 0
+	var existing = get_node_or_null("SharkIndex")
+	if existing:
+		existing.queue_free()
+		return
+	var index = load("res://scenes/ui/SharkIndex.gd").new()
+	index.name = "SharkIndex"
+	add_child(index)
+	index.set_anchors_preset(Control.PRESET_FULL_RECT)
+	index.offset_left   = 0
+	index.offset_top    = 0
+	index.offset_right  = 0
+	index.offset_bottom = 0
