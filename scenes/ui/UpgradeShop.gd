@@ -1,10 +1,10 @@
 extends Control
 # UpgradeShop.gd
-# Self-constructing window — mirrors the SharkIndex spawn pattern.
-# Add to the scene tree the same way HUD opens SharkIndex.
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	# Force size to viewport in case anchors don't resolve (added to root Node)
+	size = get_viewport_rect().size
 	GameState.upgrade_purchased.connect(_on_upgrade_purchased)
 	GameState.currency_changed.connect(_on_currency_changed)
 	_build()
@@ -32,7 +32,7 @@ func _build() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(title)
 
-	# Subtitle — upgrades purchased count
+	# Subtitle
 	var purchased_count: int = 0
 	for upgrade in GameData.UPGRADE_CATALOG:
 		purchased_count += GameState.get_upgrade_level(upgrade.id)
@@ -50,7 +50,7 @@ func _build() -> void:
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(sub)
 
-	# Close button (top-right X)
+	# Close button
 	var close := Button.new()
 	close.text = "X"
 	close.set_position(Vector2(get_viewport_rect().size.x - 52, 10))
@@ -88,7 +88,6 @@ func _make_row(upgrade_index: int) -> HBoxContainer:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 
-	# Left info block
 	var info := VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
@@ -108,10 +107,10 @@ func _make_row(upgrade_index: int) -> HBoxContainer:
 
 	var cost_lbl := Label.new()
 	if maxed:
-		cost_lbl.text    = "Maxed ✓"
+		cost_lbl.text     = "Maxed ✓"
 		cost_lbl.modulate = Color(0.2, 0.8, 0.2)
 	else:
-		cost_lbl.text    = "💰 %d" % next_cost
+		cost_lbl.text     = "💰 %d" % next_cost
 		cost_lbl.modulate = Color(1.0, 1.0, 1.0) if affordable else Color(0.8, 0.3, 0.3)
 
 	info.add_child(name_lbl)
@@ -120,7 +119,6 @@ func _make_row(upgrade_index: int) -> HBoxContainer:
 	info.add_child(cost_lbl)
 	row.add_child(info)
 
-	# Right: buy button
 	var btn := Button.new()
 	if maxed:
 		btn.text     = "Maxed"
@@ -155,7 +153,7 @@ func _on_currency_changed(_amount: int) -> void:
 	_build()
 
 func _on_close() -> void:
-	var hud = get_tree().get_root().find_child("HUD", true, false)
+	var hud := get_tree().root.get_node_or_null("Main/HUD")
 	if hud:
 		hud.show()
 	queue_free()

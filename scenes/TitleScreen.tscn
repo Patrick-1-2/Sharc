@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://c7pxst3wwqeer"]
+
+[ext_resource type="Script" uid="uid://dm17gg5dletos" path="res://TitleScreen.gd" id="1_qyuap"]
+[ext_resource type="Script" uid="uid://dfqaq4nrmdyxe" path="res://scenes/ui/InGameOptions.gd" id="2_ch40n"]
+
+[node name="TitleScreen" type="Control" unique_id=338015155]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qyuap")
+
+[node name="MainMenu" type="Control" parent="." unique_id=699086042]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGamePanel" type="Control" parent="." unique_id=302824564]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadGamePanel" type="Control" parent="." unique_id=640420190]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionsPanel" type="Control" parent="." unique_id=1933668854]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ch40n")

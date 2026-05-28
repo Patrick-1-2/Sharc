@@ -55,7 +55,7 @@ func _build() -> void:
 	close.text = "X"
 	close.set_position(Vector2(get_viewport_rect().size.x - 52, 10))
 	close.set_size(Vector2(40, 40))
-	close.pressed.connect(queue_free)
+	close.pressed.connect(_on_close)
 	add_child(close)
 
 	var scroll := ScrollContainer.new()
@@ -188,3 +188,9 @@ func _show_popup(shark: Dictionary, rarity: int) -> void:
 	close_btn.text = "Close"
 	close_btn.pressed.connect(popup.queue_free)
 	vbox.add_child(close_btn)
+
+func _on_close() -> void:
+	var hud := get_tree().root.get_node_or_null("Main/HUD")
+	if hud:
+		hud.show()
+	queue_free()

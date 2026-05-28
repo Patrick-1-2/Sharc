@@ -54,3 +54,22 @@ text = "0"
 [node name="RateLabel" type="Label" parent="MarginContainerTop/VBox" unique_id=1941065397]
 layout_mode = 2
 text = "+0 / sec"
+
+[node name="CurrencyBG" type="PanelContainer" parent="." unique_id=1111111101]
+z_index = -1
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 180.0
+offset_bottom = 62.0
+
+[node name="BtnOptions" type="Button" parent="." unique_id=1111111102]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 56.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 22
+text = "⚙"

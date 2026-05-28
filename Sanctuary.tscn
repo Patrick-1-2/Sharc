@@ -1,18 +1,21 @@
 [gd_scene format=3 uid="uid://6cokq5phk2ln"]
 
 [ext_resource type="Script" uid="uid://bmn7f4l5l2md0" path="res://scenes/world/Sanctuary.gd" id="1_ldb7x"]
+[ext_resource type="Texture2D" path="res://assets/sanctuary_bg.png.png" id="2_pq1o5"]
 
 [node name="Sanctuary" type="Node2D" unique_id=1349688557]
 script = ExtResource("1_ldb7x")
 
-[node name="Background" type="ColorRect" parent="." unique_id=110470524]
+[node name="Background" type="TextureRect" parent="." unique_id=764202958]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_left = -768.0
+offset_top = -512.0
+offset_right = 768.0
+offset_bottom = 512.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.33271822, 0.803659, 0.9325203, 1)
+texture = ExtResource("2_pq1o5")
 
 [node name="SharkContainer" type="Node2D" parent="." unique_id=1254618396]

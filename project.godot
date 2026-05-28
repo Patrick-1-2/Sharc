@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Sharc"
-run/main_scene="uid://cqow47bch5ocs"
+run/main_scene="uid://c7pxst3wwqeer"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
