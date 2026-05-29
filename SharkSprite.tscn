@@ -4,3 +4,5 @@
 
 [node name="SharkSprite" type="Node2D" unique_id=78885201]
 script = ExtResource("1_lywds")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1331380863]
