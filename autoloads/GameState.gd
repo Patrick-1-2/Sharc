@@ -12,7 +12,7 @@ var currency: int = 0:
 		currency = value
 		emit_signal("currency_changed", currency)
 
-var passive_currency_rate: float = 10.0
+var passive_currency_rate: float = 5.0
 var currency_multiplier: float = 1.0
 
 var shark_capacity: int = 5
@@ -25,10 +25,15 @@ var discovered_sharks: Dictionary = {}
 var _passive_timer: float = 0.0
 const PASSIVE_TICK_INTERVAL: float = 1.0
 
+var active_slot: int = 0         
+var _passive_active: bool = false 
+
 func _ready() -> void:
 	currency = 150
 
 func _process(delta: float) -> void:
+	if not _passive_active:
+		return
 	_passive_timer += delta
 	if _passive_timer >= PASSIVE_TICK_INTERVAL:
 		_passive_timer = 0.0
@@ -75,7 +80,6 @@ func hatch_egg(egg_item: Dictionary) -> Dictionary:
 		push_warning("No sharks defined for rarity %d" % rarity)
 		return {}
 	result["instance_id"] = _generate_id()
-	result["happiness"] = 100
 	if not discovered_sharks.has(result.id):
 		discovered_sharks[result.id] = true
 	emit_signal("shark_hatched", result)
@@ -114,40 +118,27 @@ func buy_upgrade(upgrade_id: int) -> bool:
 	_check_victory()
 	return true
 
+func reset() -> void:
+	currency              = 150
+	passive_currency_rate = 10.0
+	currency_multiplier   = 1.0
+	shark_capacity        = 5
+	housed_sharks         = []
+	purchased_upgrades    = {}
+	discovered_sharks     = {}
+	egg_discovery_rate    = 1.0
+	_passive_timer        = 0.0
+	_passive_active       = false   # will be activated by Main.gd after scene loads
+ 
+func activate_passive_income() -> void:
+	_passive_active = true
+	
 func _apply_upgrade(upgrade: Dictionary) -> void:
 	match upgrade.effect:
 		"shark_capacity":     shark_capacity += upgrade.value
 		"passive_currency":   passive_currency_rate += upgrade.value
 		"currency_mult":      currency_multiplier *= upgrade.value
 		"egg_discovery_rate": egg_discovery_rate *= upgrade.value
-
-func pet_shark(instance_id: String) -> int:
-	var shark: Dictionary = _find_shark(instance_id)
-	if shark.is_empty():
-		return 0
-	var bonus: int = int(10 * currency_multiplier)
-	currency += bonus
-	shark.happiness = min(100, shark.happiness + 5)
-	return bonus
-
-func feed_shark(instance_id: String, food_id: int) -> bool:
-	var shark: Dictionary = _find_shark(instance_id)
-	if shark.is_empty():
-		return false
-	var food: Dictionary = GameData.FOOD_CATALOG[food_id]
-	if currency < food.cost:
-		return false
-	currency -= food.cost
-	var bonus: int = int(passive_currency_rate * (food.currency_mult - 1.0) * 30)
-	currency += bonus
-	shark.happiness = min(100, shark.happiness + food.happiness_bonus)
-	return true
-
-func _find_shark(instance_id: String) -> Dictionary:
-	for shark in housed_sharks:
-		if shark.instance_id == instance_id:
-			return shark
-	return {}
 
 func _check_index_complete() -> void:
 	if discovered_sharks.size() >= GameData.SHARK_CATALOG.size():
@@ -166,37 +157,44 @@ func _check_victory() -> void:
 
 func trigger_loss() -> void:
 	emit_signal("game_lost")
-
-const SAVE_PATH := "user://sharc_save.json"
-
+const SAVE_SLOT_PATH := "user://sharc_save_slot_%d.json"
+ 
 func save() -> void:
 	var data := {
-		"currency":           currency,
-		"passive_rate":       passive_currency_rate,
-		"currency_mult":      currency_multiplier,
-		"shark_capacity":     shark_capacity,
-		"housed_sharks":      housed_sharks,
-		"purchased_upgrades": purchased_upgrades,
-		"discovered_sharks":  discovered_sharks,
-		"egg_discovery_rate": egg_discovery_rate,
+		"currency":             currency,
+		"passive_rate":         passive_currency_rate,
+		"currency_mult":        currency_multiplier,
+		"shark_capacity":       shark_capacity,
+		"housed_sharks":        housed_sharks,
+		"housed_sharks_count":  housed_sharks.size(),   # for slot preview
+		"purchased_upgrades":   purchased_upgrades,
+		"discovered_sharks":    discovered_sharks,
+		"egg_discovery_rate":   egg_discovery_rate,
 	}
-	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	var path := SAVE_SLOT_PATH % active_slot
+	var file := FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data))
 	file.close()
-
-func load_game() -> void:
-	if not FileAccess.file_exists(SAVE_PATH):
+	
+func load_game_slot(slot: int) -> void:
+	active_slot = slot
+	var path := SAVE_SLOT_PATH % slot
+	if not FileAccess.file_exists(path):
 		return
-	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
-	var parsed = JSON.parse_string(file.get_as_text())
+	var file   := FileAccess.open(path, FileAccess.READ)
+	var parsed  = JSON.parse_string(file.get_as_text())
 	file.close()
 	if parsed == null:
 		return
-	currency              = parsed.get("currency", currency)
-	passive_currency_rate = parsed.get("passive_rate", passive_currency_rate)
-	currency_multiplier   = parsed.get("currency_mult", currency_multiplier)
-	shark_capacity        = parsed.get("shark_capacity", shark_capacity)
-	housed_sharks         = parsed.get("housed_sharks", housed_sharks)
+	currency              = parsed.get("currency",           currency)
+	passive_currency_rate = parsed.get("passive_rate",       passive_currency_rate)
+	currency_multiplier   = parsed.get("currency_mult",      currency_multiplier)
+	shark_capacity        = parsed.get("shark_capacity",     shark_capacity)
+	housed_sharks         = parsed.get("housed_sharks",      housed_sharks)
 	purchased_upgrades    = parsed.get("purchased_upgrades", purchased_upgrades)
-	discovered_sharks     = parsed.get("discovered_sharks", discovered_sharks)
+	discovered_sharks     = parsed.get("discovered_sharks",  discovered_sharks)
 	egg_discovery_rate    = parsed.get("egg_discovery_rate", egg_discovery_rate)
+	_passive_active       = true  # loaded game starts earning immediately
+ 
+func load_game() -> void:
+	load_game_slot(active_slot)
