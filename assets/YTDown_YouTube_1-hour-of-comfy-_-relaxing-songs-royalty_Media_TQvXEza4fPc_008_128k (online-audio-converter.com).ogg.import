@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bfph30bmky6kg"
+path="res://.godot/imported/YTDown_YouTube_1-hour-of-comfy-_-relaxing-songs-royalty_Media_TQvXEza4fPc_008_128k (online-audio-converter.com).ogg-52ddd4ebd3a525d688fd57935110b7c4.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/YTDown_YouTube_1-hour-of-comfy-_-relaxing-songs-royalty_Media_TQvXEza4fPc_008_128k (online-audio-converter.com).ogg"
+dest_files=["res://.godot/imported/YTDown_YouTube_1-hour-of-comfy-_-relaxing-songs-royalty_Media_TQvXEza4fPc_008_128k (online-audio-converter.com).ogg-52ddd4ebd3a525d688fd57935110b7c4.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

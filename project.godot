@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameData="*uid://bob5brlds03x0"
 GameState="*uid://ceh1ibx0pjtpu"
+MusicManager="*uid://cyxcw45nggubg"
 
 [physics]
 

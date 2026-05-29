@@ -9,6 +9,9 @@ const BG_IMAGE_PATH := "res://assets/sanctuary_bg.png"
 
 func _ready() -> void:
 	_setup_background()
+	# Move SharkContainer to screen center so its local (0,0) is the tank center
+	var vp_size := get_viewport_rect().size
+	shark_container.position = vp_size / 2.0
 	GameState.shark_hatched.connect(_on_shark_hatched)
 	_populate_existing_sharks()
 
@@ -53,5 +56,6 @@ func _spawn_shark_sprite(shark: Dictionary) -> void:
 	var sprite = SharkScene.instantiate()
 	shark_container.add_child(sprite)
 	sprite.setup(shark)
-	sprite.position = Vector2(576, 324)
+	# Spawn at center of tank — SharkContainer is already offset to screen center
+	sprite.position = Vector2.ZERO
 	print("Sprite position: ", sprite.position)
